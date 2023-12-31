@@ -31,9 +31,9 @@ jobs:
             run: |
               ssh-add -D
           - name: Run full test
-            timeout-minutes: 15
             env:
-            GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=no"
+                GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=no"
+            timeout-minutes: 15
             run: |
                docker run --rm \
                  -v ${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE} \
