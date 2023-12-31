@@ -14,8 +14,6 @@ jobs:
               clean: false
               submodules: 'recursive'
           - uses: webfactory/ssh-agent@v0.5.4
-            with:
-                 ssh-private-key: ${{ secrets.DEPLOY_KEY }}
           - name: Run build
             timeout-minutes: 600
             run: |
