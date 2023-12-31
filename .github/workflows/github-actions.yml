@@ -15,7 +15,7 @@ jobs:
               submodules: 'recursive'
           - uses: webfactory/ssh-agent@v0.5.4
             with:
-                 ssh-private-key: ${{ secrets.ACTION_RUNNER_2 }}
+                 ssh-private-key: ${{ secrets.ACTION_RUNNER_3 }}
           - name: Run build
             timeout-minutes: 600
             run: |
