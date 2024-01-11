@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "Loading faulty"
+
+insmod /lib/modules/5.15.124-yocto-standard/kernel/drivers/input/faulty.ko
