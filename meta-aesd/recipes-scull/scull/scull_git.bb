@@ -25,7 +25,7 @@ SRC_URI = "git://github.com/cu-ecen-aeld/assignment-7-jqiaobln;protocol=https;br
 
 # Modify these as desired
 PV = "1.0+git${SRCPV}"
-SRCREV = "efbb0d9c38ece561eeee94b2fe1faa9da4cf185b"
+SRCREV = "41806e5874bc63c3a5e482d411ef5b91a29d63de"
 
 S = "${WORKDIR}/git"
 
@@ -46,13 +46,17 @@ do_compile () {
 do_install () {
     MODULE_DIR=${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel/drivers/input
     install -d $MODULE_DIR
+    install -d ${D}${base_bindir}
 #    install -d ${D}${sysconfdir}/init.d
 #    install -m 0755 ${WORKDIR}/scull.init ${D}${sysconfdir}/init.d/
+    
     install -m 0644 ${S}/scull/scull.ko ${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel/drivers/input
+    install -m 0755 ${S}/scull/scull_load ${D}${base_bindir}
+    install -m 0755 ${S}/scull/scull_unload ${D}${base_bindir}
 }
 
 
-#FILES:${PN} += "${sysconfdir}/init.d/scull.init"
+FILES:${PN} += "${base_bindir}"
 #FILES:${PN} += "\
 #${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel/drivers/input/scull.ko \
 #"
@@ -61,4 +65,4 @@ RPROVIDES_${PN} += "kernel-module-${PN}-${KERNEL_VERSION}"
 #MACHINE_EXTRA_RECOMMENDS += "kernel-module-scull"
 #IMAGE_INSTALL += "kernel-module-scull"
 
-KERNEL_MODULE_AUTOLOAD += "scull"
+#KERNEL_MODULE_AUTOLOAD += "scull"

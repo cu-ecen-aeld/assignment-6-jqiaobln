@@ -20,17 +20,13 @@ inherit update-rc.d
 
 #INITSCRIPT_PACKAGES = "${PN}"
 
-INITSCRIPT_NAME = "faulty_load.init"
-#INITSCRIPT_PARAMS = "start"
+INITSCRIPT_NAME = "init"
 
 # Modify these as desired
 PV = "1.0+git${SRCPV}"
-SRCREV = "1892582341527d07119e5c85f98d8a90d70708ea"
+SRCREV = "41806e5874bc63c3a5e482d411ef5b91a29d63de"
 
 S = "${WORKDIR}/git"
-
-
-FILES:${PN} += "${sysconfdir}/init.d/faulty_load.init"
 
 EXTRA_OEMAKE:append:task-install = " -C ${STAGING_KERNEL_DIR} M=${S}/misc"
 EXTRA_OEMAKE += "KERNELDIR=${STAGING_KERNEL_DIR}"
@@ -39,13 +35,18 @@ EXTRA_OEMAKE += "KERNELDIR=${STAGING_KERNEL_DIR}"
 do_install () {
     MODULE_DIR=${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel/drivers/input
     install -d $MODULE_DIR
+    install -d ${D}${base_bindir}
     install -m 0644 ${S}/misc-modules/hello.ko ${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel/drivers/input
     install -m 0644 ${S}/misc-modules/faulty.ko ${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel/drivers/input
+    install -m 0755 ${S}/misc-modules/module_load ${D}${base_bindir}
+    install -m 0755 ${S}/misc-modules/module_unload ${D}${base_bindir}
     install -d ${D}${sysconfdir}/init.d
-    install -m 0755 ${S}/misc-modules/faulty_load.init ${D}${sysconfdir}/init.d/
+    install -m 0755 ${S}/init ${D}${sysconfdir}/init.d/
 }
+
+FILES:${PN} += "${base_bindir} ${sysconfdir}"
 
 #MACHINE_EXTRA_RECOMMENDS += "kernel-module-misc"
 
-KERNEL_MODULE_AUTOLOAD += "faulty"
-KERNEL_MODULE_AUTOLOAD += "hello"
+#KERNEL_MODULE_AUTOLOAD += "faulty"
+#KERNEL_MODULE_AUTOLOAD += "hello"
